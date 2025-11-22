@@ -60,7 +60,7 @@ public partial class MainViewModel : ObservableObject
 		{
 
 			WeakReferenceMessenger.Default.Send(new CloseCalendarPickerMessage(string.Empty));
-			Application.Current.MainPage.DisplayAlert("Calendar registration successful", $"The event was successfully added to calendar '{selectedCalendar}'!", "OK");
+			Application.Current.MainPage.DisplayAlertAsync("Calendar registration successful", $"The event was successfully added to calendar '{selectedCalendar}'!", "OK");
 		}
 	}
 
@@ -81,7 +81,7 @@ public partial class MainViewModel : ObservableObject
 				return;
 			}
 
-			var result = await Application.Current.MainPage.DisplayAlert("Add to calendar", $"Would you like to add this event to your personal calendar?{Environment.NewLine}{Environment.NewLine}Please select one of your calendars", "Add Event", "Cancel");
+			var result = await Application.Current.MainPage.DisplayAlertAsync("Add to calendar", $"Would you like to add this event to your personal calendar?{Environment.NewLine}{Environment.NewLine}Please select one of your calendars", "Add Event", "Cancel");
 			if (!result)
 			{
 				return;
@@ -98,11 +98,7 @@ public partial class MainViewModel : ObservableObject
 			// ...figure out which calendar to use, e.g. by prompting the user and considering the CanEditEvents property...
 			if (calendars.Count > 1)
 			{
-				CalendarPickerList = new ObservableCollection<string>();
-				foreach (var itemCalendar in calendars)
-				{
-					CalendarPickerList.Add(itemCalendar);
-				}
+				CalendarPickerList = [.. calendars];
 
 				if (CalendarPickerList.Count > 0)
 				{
@@ -126,7 +122,7 @@ public partial class MainViewModel : ObservableObject
 
 				WeakReferenceMessenger.Default.Send(new CloseCalendarPickerMessage(string.Empty));
 
-				await Application.Current.MainPage.DisplayAlert("Calendar registration successful", $"The event was successfully added to calendar '{selectedCalendar}'!", "OK");
+				await Application.Current.MainPage.DisplayAlertAsync("Calendar registration successful", $"The event was successfully added to calendar '{selectedCalendar}'!", "OK");
 			}
 		}
 		catch (System.Exception ex)

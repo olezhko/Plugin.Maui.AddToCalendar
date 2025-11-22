@@ -72,6 +72,9 @@ partial class AddToCalendarServiceImplementation : IAddToCalendar
 		string[] calendarsProjection = {
 										CalendarContract.Calendars.InterfaceConsts.Id,
 										CalendarContract.Calendars.InterfaceConsts.CalendarDisplayName,
+										CalendarContract.Calendars.InterfaceConsts.CalendarColor,
+										CalendarContract.Calendars.InterfaceConsts.IsPrimary,
+										CalendarContract.Calendars.InterfaceConsts.Visible,
 									   };
 		if (calendarsUri != null && Platform.CurrentActivity?.ContentResolver != null)
 		{
@@ -88,11 +91,13 @@ partial class AddToCalendarServiceImplementation : IAddToCalendar
 						calendarList.Add(calendarName);
 					}
 				}
+
+				cursor.Close();
 			}
 
 			return calendarList;
 		}
 
-		return new List<string>();
+		return [];
 	}
 }
